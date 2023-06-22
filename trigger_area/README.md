@@ -1,18 +1,18 @@
-TRIGGER
+# TRIGGER
 
-Fungsi Trigger :
+## Fungsi Trigger :
 Mengeksekusi script sql secara otomatis ketika terjadi perubahan pada sebuah tabel.
 Menjaga integritas data.
 Mencegah proses perubahan yang tidak dibenarkan atau tidak sah.
 
-Manfaat Trigger :
+## Manfaat Trigger :
 Aplikasi yang dibuat menjadi lebih cepat jika dibandingkan menulis langsung script sql di kode program.
 Reusable, artinya ketika terjadi migrasi atau perpindahan bahasa pemrograman 
 maka kita tidak perlu menulis
 ulang script sql di source code aplikasi.
 Mudah untuk di maintenance.
 
-Insert
+### Insert
 Trigger ketika insert merupakan sebuah kondisi dimana menjalankan script sql 
 ketika perintah insert pada sebuah tabel dieksekusi. Trigger di proses insert terdapat 
 dua buah kejadian, yakni BEFORE dan AFTER. BEFORE akan di eksekusi sebelum 
@@ -21,14 +21,14 @@ insert selesai dijalankan. Pada saat membuat trigger, bagian script eksekusi
 biasanya perlu mengambil nilai field dari tabel yang berubah tersebut. 
 Cara mengambil nilai field tersebut adalah dengan keyword NEW dan diikuti dengan nama field ditabel.
 
-Update
+### Update
 Trigger update akan dieksekusi ketika perintah update di jalankan pada sebuah tabel. 
 Sama seperti trigger insert, trigger update juga terdapat dua buah kejadian yakni BEFORE dan AFTER.
 Perbedaannya adalah trigger update terdapat keyword NEW dan OLD sedangkan trigger insert hanya keyword 
 NEW. Dimana keyword NEW digunakan untuk mengambil field tabel yang baru saja diubah nilainya,
 sedangkan keyword OLD digunakan untuk mengambil nilai field sebelum diubah.
 
-Delete
+### Delete
 Terakhir adalah trigger delete. Trigger ini akan di eksekusi ketika data pada sebuah tabel dihapus. 
 Sama seperti kedua trigger diatas, trigger ini juga memiliki dua buah kejadian.
 Perbedaannya adalah trigger delete hanya memiliki keyword OLD untuk mengambil nilai field.
@@ -50,12 +50,13 @@ Mulai membuat trigger dengan ketentuan syarat
 
 
 
-INSERT BEFORE
+### INSERT BEFORE
 Trigger yang pertama yang akan kita buat adalah trigger insert before. 
 Trigger ini sendiri akan melakukan pengecekan pada saat ada penambahan baris data baru 
 pada tabel transaction, dimana jika qty yang akan dijual dikurangi stok yang ada di item 
 tidak boleh kurang dari nol. Script sql-nya adalah seperti dibawah ini :
 
+```bash
 DELIMITER $$
 CREATE TRIGGER `transaction_insert_before` BEFORE INSERT ON `transaction` FOR EACH ROW BEGIN
 SET @stok = (SELECT stok FROM items WHERE id_item = NEW.id_item);
@@ -66,8 +67,7 @@ END IF;
 UPDATE items SET stok = @sisa WHERE id_item = NEW.id_item;
 END
 $$
-
-
+```
 
 Pada script diatas trigger dengan nama `transaction_insert_before` pada tabel transaction. 
 Pada baris berikutnya kita membuat variabel `@stok` dan mengisinya dengan stok yang ada di tabel items, 
@@ -81,13 +81,13 @@ dengan nilai yang ditampung di variabel sisa tadi. Hasilnya jika memasukkan qty 
 stok yang ada ditabel items, maka akan muncul pesan kesalahan seperti ini pada saat insert 
 transaction :
 
-
-
-UPDATE BEFORE
+<br>
+### UPDATE BEFORE
 Trigger ini akan melakukan pengecekan pada saat tabel transaction melakukan proses update data. 
 Dimana rule yang telah ditentukan diatas, maka script sql untuk membuat trigger update before 
 adalah sebagai berikut :
 
+```bash
 CREATE  TRIGGER `transaction_update_before` BEFORE UPDATE ON `transaction` FOR EACH ROW 
 BEGIN
 IF OLD.id_item = NEW.id_item THEN 
@@ -109,7 +109,7 @@ ELSE
 	UPDATE items SET stok = @sisa_baru WHERE id_item = NEW.id_item;
 END IF;
 END
-
+```
 
 Saat membuat trigger update, kita melihat bahwa disana ada keyword NEW dan OLD.
 Keyword NEW disini berarti merupakan nilai sebuah field yang baru saja diubah, 
@@ -117,16 +117,18 @@ sedangkan untuk OLD adalah nilai field yang sebelumnya atau yang lama. Sama sepe
 melakukan pengecekan jika kondisi tidak sesuai dengan yang diinginkan maka akan memberikan 
 pesan kesalahan dalam bentuk SIGNAL SQLSTATE '45000' .
 
-DELETE AFTER
+### DELETE AFTER
 Untuk terakhir, adalah trigger delete after. Trigger ini akan dieksekusi 
 setelah proses delete terjadi. Script-nya adalah sebagai berikut :
 
+```bash
 CREATE TRIGGER `transaction_delete_after` AFTER DELETE ON `transaction` FOR EACH ROW 
 BEGIN
 SET @stok = (SELECT stok FROM items WHERE id_item = OLD.id_item);
 SET @sisa = @stok + OLD.qty;
 UPDATE items SET stok = @sisa WHERE id_item = OLD.id_item;
 END
+```
 
 Mengikuti rule yang telah dibuat sebelumnya, yakni jika ada baris data yang dihapus pada
 tabel transaction, maka stok pada tabel items akan bertambah sesuai dengan jumlah qty yang dihapus 
