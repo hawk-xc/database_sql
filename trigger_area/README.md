@@ -81,13 +81,13 @@ dengan nilai yang ditampung di variabel sisa tadi. Hasilnya jika memasukkan qty 
 stok yang ada ditabel items, maka akan muncul pesan kesalahan seperti ini pada saat insert 
 transaction :
 
-<br>
 ### UPDATE BEFORE
 Trigger ini akan melakukan pengecekan pada saat tabel transaction melakukan proses update data. 
 Dimana rule yang telah ditentukan diatas, maka script sql untuk membuat trigger update before 
 adalah sebagai berikut :
 
 ```bash
+DELIMITER $$
 CREATE  TRIGGER `transaction_update_before` BEFORE UPDATE ON `transaction` FOR EACH ROW 
 BEGIN
 IF OLD.id_item = NEW.id_item THEN 
@@ -109,6 +109,7 @@ ELSE
 	UPDATE items SET stok = @sisa_baru WHERE id_item = NEW.id_item;
 END IF;
 END
+$$
 ```
 
 Saat membuat trigger update, kita melihat bahwa disana ada keyword NEW dan OLD.
@@ -122,12 +123,14 @@ Untuk terakhir, adalah trigger delete after. Trigger ini akan dieksekusi
 setelah proses delete terjadi. Script-nya adalah sebagai berikut :
 
 ```bash
+DELIMITER $$
 CREATE TRIGGER `transaction_delete_after` AFTER DELETE ON `transaction` FOR EACH ROW 
 BEGIN
 SET @stok = (SELECT stok FROM items WHERE id_item = OLD.id_item);
 SET @sisa = @stok + OLD.qty;
 UPDATE items SET stok = @sisa WHERE id_item = OLD.id_item;
 END
+$$
 ```
 
 Mengikuti rule yang telah dibuat sebelumnya, yakni jika ada baris data yang dihapus pada
