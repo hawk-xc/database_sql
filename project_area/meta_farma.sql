@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1deb5ubuntu1
+-- version 5.0.4deb2+deb11u1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 22, 2023 at 11:18 AM
--- Server version: 8.0.33
--- PHP Version: 8.1.2-1ubuntu2.11
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jun 25, 2023 at 10:34 PM
+-- Server version: 10.11.4-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,162 +24,213 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `data_apoteker`
+-- Table structure for table `apoteker`
 --
 
-CREATE TABLE `data_apoteker` (
-  `KD_apoteker` char(7) NOT NULL,
+CREATE TABLE `apoteker` (
+  `id_apoteker` char(10) NOT NULL,
   `nama_apoteker` varchar(30) NOT NULL,
   `jabatan` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `data_apoteker`
+-- Dumping data for table `apoteker`
 --
 
-INSERT INTO `data_apoteker` (`KD_apoteker`, `nama_apoteker`, `jabatan`) VALUES
-('APT001', 'Denny', 'Apoteker'),
-('APT002', 'Dimas', 'Apoteker');
+INSERT INTO `apoteker` (`id_apoteker`, `nama_apoteker`, `jabatan`) VALUES
+('A-01', 'Wahyu Tri', 'apoteker'),
+('A-02', 'Dewancha', 'Gudang');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `data_obat`
+-- Table structure for table `nota`
 --
 
-CREATE TABLE `data_obat` (
-  `KD_obat` char(5) NOT NULL,
-  `nama_obat` varchar(30) NOT NULL,
-  `harga_obat` decimal(10,0) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `data_obat`
---
-
-INSERT INTO `data_obat` (`KD_obat`, `nama_obat`, `harga_obat`) VALUES
-('MN010', 'Ibuprofen', '15000'),
-('MN011', 'Biotin', '20000'),
-('MN012', 'Cafepine', '30000'),
-('MN013', 'Bupropion', '30000');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `data_pelanggan`
---
-
-CREATE TABLE `data_pelanggan` (
-  `KD_pelanggan` char(5) NOT NULL,
+CREATE TABLE `nota` (
+  `id_nota` int(11) NOT NULL,
+  `id_trans` char(10) NOT NULL,
+  `id_obat` char(10) NOT NULL,
+  `id_pel` char(10) NOT NULL,
   `nama_pelanggan` varchar(30) NOT NULL,
-  `riwayat` varchar(30) DEFAULT 'TIDAK ADA RIWAYAT',
-  `no_telp` varchar(30) DEFAULT NULL,
-  `alamat` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `data_pelanggan`
---
-
-INSERT INTO `data_pelanggan` (`KD_pelanggan`, `nama_pelanggan`, `riwayat`, `no_telp`, `alamat`) VALUES
-('USR01', 'Dafiyan', 'PENYAKIT JANTUNG', '0822212212312', 'Dusun Gedangan');
+  `nama_apoteker` varchar(30) NOT NULL,
+  `harga` float DEFAULT NULL,
+  `jumlah` int(11) DEFAULT NULL,
+  `total` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `data_transaksi_obat`
+-- Table structure for table `obat`
 --
 
-CREATE TABLE `data_transaksi_obat` (
-  `KD_transaksi` char(5) NOT NULL,
-  `KD_obat` char(5) NOT NULL,
-  `jumlah` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `obat` (
+  `id_obat` char(10) NOT NULL,
+  `nama_obat` varchar(30) NOT NULL,
+  `stok` int(11) DEFAULT NULL,
+  `harga` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `data_transaksi_obat`
+-- Dumping data for table `obat`
 --
 
-INSERT INTO `data_transaksi_obat` (`KD_transaksi`, `KD_obat`, `jumlah`) VALUES
-('TR001', 'MN010', 12);
+INSERT INTO `obat` (`id_obat`, `nama_obat`, `stok`, `harga`) VALUES
+('MN01', 'Ibuprofen', 45, 12000),
+('MN02', 'Asipilin', 60, 2000),
+('MN03', 'Biofarma', 34, 50000);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `data_transaksi_pelanggan`
+-- Table structure for table `pelanggan`
 --
 
-CREATE TABLE `data_transaksi_pelanggan` (
-  `KD_transaksi` char(5) NOT NULL,
-  `KD_apoteker` char(7) NOT NULL,
-  `KD_pelanggan` char(5) NOT NULL,
-  `tanggal_transaksi` datetime DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `pelanggan` (
+  `id_pel` char(10) NOT NULL,
+  `nama_pel` varchar(30) NOT NULL,
+  `riwayat` varchar(30) DEFAULT NULL,
+  `no_telp` char(15) DEFAULT NULL,
+  `usia` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `data_transaksi_pelanggan`
+-- Dumping data for table `pelanggan`
 --
 
-INSERT INTO `data_transaksi_pelanggan` (`KD_transaksi`, `KD_apoteker`, `KD_pelanggan`, `tanggal_transaksi`) VALUES
-('TR001', 'APT001', 'USR01', '2023-06-22 00:20:10');
+INSERT INTO `pelanggan` (`id_pel`, `nama_pel`, `riwayat`, `no_telp`, `usia`) VALUES
+('U-1', 'Denny', NULL, NULL, 19),
+('U-2', 'Dimas', NULL, NULL, 20),
+('U-3', 'Dafiyan', NULL, NULL, 21);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `trans`
+--
+
+CREATE TABLE `trans` (
+  `id_trans` char(10) NOT NULL,
+  `id_obat` char(10) NOT NULL,
+  `id_pel` char(10) NOT NULL,
+  `id_apoteker` char(10) NOT NULL,
+  `jumlah` int(11) DEFAULT NULL,
+  `tanggal` date DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Triggers `trans`
+--
+DELIMITER $$
+CREATE TRIGGER `after_insert_trans` AFTER INSERT ON `trans` FOR EACH ROW BEGIN
+SET @pelanggan = (SELECT nama_pel FROM pelanggan where id_pel = NEW.id_pel);
+SET @apoteker = (SELECT nama_apoteker FROM apoteker where id_apoteker = NEW.id_apoteker);
+SET @harga = (SELECT harga FROM obat WHERE id_obat = NEW.id_obat);
+SET @total = @harga * NEW.jumlah;
+SET @stok = (SELECT stok FROM obat WHERE id_obat = NEW.id_obat);
+INSERT INTO nota (id_trans, id_obat, id_pel, nama_pelanggan, nama_apoteker, harga, jumlah, total) VALUES (NEW.id_trans, NEW.id_obat, NEW.id_pel, @pelanggan, @apoteker, @harga, NEW.jumlah, @total);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `before_insert_trans` BEFORE INSERT ON `trans` FOR EACH ROW BEGIN
+SET @stok = (SELECT stok FROM obat WHERE id_obat = NEW.id_obat);
+SET @sisa = @stok - NEW.jumlah;
+IF @sisa < 0 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Warning: stok tidak cukup'; END IF;
+UPDATE obat SET stok = @sisa WHERE id_obat = NEW.id_obat;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `delete_after_trans` AFTER DELETE ON `trans` FOR EACH ROW BEGIN
+SET @stok = (SELECT stok FROM obat WHERE id_obat = OLD.id_obat);
+SET @sisa = @stok + OLD.jumlah;
+UPDATE obat SET stok = @sisa WHERE id_obat = OLD.id_obat;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_before_trans` BEFORE UPDATE ON `trans` FOR EACH ROW BEGIN IF OLD.id_obat = NEW.id_obat THEN SET @stok = (SELECT stok FROM obat WHERE id_obat = OLD.id_obat); SET @sisa = (@stok + OLD.jumlah) - NEW.jumlah; IF @sisa < 0 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Warning: stok tidak cukup';  END IF; UPDATE obat SET stok = @sisa WHERE id_obat = OLD.id_obat; ELSE SET @stok_lama = (SELECT stok FROM obat WHERE id_obat = OLD.id_obat); SET @sisa_lama = (@stok_lama + OLD.jumlah); UPDATE obat SET stok = @sisa_lama WHERE id_obat = OLD.id_obat; SET @stok_baru = (SELECT stok FROM obat WHERE id_obat = NEW.id_obat); SET @sisa_baru = @stok_baru - NEW.jumlah; IF @sisa_baru < 0 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Warning: stok tidak cukup'; END IF; UPDATE obat SET stok = @sisa_baru WHERE id_obat = NEW.id_obat; END IF; END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_before_trans_to_nota` BEFORE UPDATE ON `trans` FOR EACH ROW BEGIN 
+IF OLD.id_trans = NEW.id_trans THEN
+SET @harga = (SELECT harga FROM obat WHERE id_obat = NEW.id_obat);
+SET @total_baru = @harga * NEW.jumlah;
+UPDATE nota SET total = @total_baru WHERE id_trans = NEW.id_trans; 
+END IF; 
+END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `data_apoteker`
+-- Indexes for table `apoteker`
 --
-ALTER TABLE `data_apoteker`
-  ADD PRIMARY KEY (`KD_apoteker`),
-  ADD UNIQUE KEY `KD_apoteker` (`KD_apoteker`);
+ALTER TABLE `apoteker`
+  ADD PRIMARY KEY (`id_apoteker`);
 
 --
--- Indexes for table `data_obat`
+-- Indexes for table `nota`
 --
-ALTER TABLE `data_obat`
-  ADD PRIMARY KEY (`KD_obat`),
-  ADD UNIQUE KEY `KD_obat` (`KD_obat`);
+ALTER TABLE `nota`
+  ADD PRIMARY KEY (`id_nota`),
+  ADD KEY `FK_trans` (`id_trans`);
 
 --
--- Indexes for table `data_pelanggan`
+-- Indexes for table `obat`
 --
-ALTER TABLE `data_pelanggan`
-  ADD PRIMARY KEY (`KD_pelanggan`),
-  ADD UNIQUE KEY `KD_pelanggan` (`KD_pelanggan`);
+ALTER TABLE `obat`
+  ADD PRIMARY KEY (`id_obat`);
 
 --
--- Indexes for table `data_transaksi_obat`
+-- Indexes for table `pelanggan`
 --
-ALTER TABLE `data_transaksi_obat`
-  ADD PRIMARY KEY (`KD_transaksi`),
-  ADD KEY `FK_transaksi_obat` (`KD_obat`);
+ALTER TABLE `pelanggan`
+  ADD PRIMARY KEY (`id_pel`),
+  ADD UNIQUE KEY `id_pel` (`id_pel`);
 
 --
--- Indexes for table `data_transaksi_pelanggan`
+-- Indexes for table `trans`
 --
-ALTER TABLE `data_transaksi_pelanggan`
-  ADD UNIQUE KEY `KD_transaksi` (`KD_transaksi`),
-  ADD UNIQUE KEY `KD_apoteker` (`KD_apoteker`),
-  ADD UNIQUE KEY `KD_pelanggan` (`KD_pelanggan`);
+ALTER TABLE `trans`
+  ADD PRIMARY KEY (`id_trans`),
+  ADD KEY `FK_obat` (`id_obat`),
+  ADD KEY `FK_pel` (`id_pel`),
+  ADD KEY `FK_apoteker` (`id_apoteker`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `nota`
+--
+ALTER TABLE `nota`
+  MODIFY `id_nota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `data_transaksi_obat`
+-- Constraints for table `nota`
 --
-ALTER TABLE `data_transaksi_obat`
-  ADD CONSTRAINT `FK_transaksi_obat` FOREIGN KEY (`KD_obat`) REFERENCES `data_obat` (`KD_obat`);
+ALTER TABLE `nota`
+  ADD CONSTRAINT `FK_trans` FOREIGN KEY (`id_trans`) REFERENCES `trans` (`id_trans`);
 
 --
--- Constraints for table `data_transaksi_pelanggan`
+-- Constraints for table `trans`
 --
-ALTER TABLE `data_transaksi_pelanggan`
-  ADD CONSTRAINT `FK_tr_apoteker` FOREIGN KEY (`KD_apoteker`) REFERENCES `data_apoteker` (`KD_apoteker`),
-  ADD CONSTRAINT `FK_tr_obat` FOREIGN KEY (`KD_transaksi`) REFERENCES `data_transaksi_obat` (`KD_transaksi`),
-  ADD CONSTRAINT `FK_tr_pelanggan` FOREIGN KEY (`KD_pelanggan`) REFERENCES `data_pelanggan` (`KD_pelanggan`);
+ALTER TABLE `trans`
+  ADD CONSTRAINT `FK_apoteker` FOREIGN KEY (`id_apoteker`) REFERENCES `apoteker` (`id_apoteker`),
+  ADD CONSTRAINT `FK_obat` FOREIGN KEY (`id_obat`) REFERENCES `obat` (`id_obat`),
+  ADD CONSTRAINT `FK_pel` FOREIGN KEY (`id_pel`) REFERENCES `pelanggan` (`id_pel`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
