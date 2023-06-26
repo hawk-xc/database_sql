@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4deb2+deb11u1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Jun 25, 2023 at 10:34 PM
--- Server version: 10.11.4-MariaDB
--- PHP Version: 7.4.33
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 26 Jun 2023 pada 19.14
+-- Versi server: 10.4.27-MariaDB
+-- Versi PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `apoteker`
+-- Struktur dari tabel `apoteker`
 --
 
 CREATE TABLE `apoteker` (
@@ -34,7 +34,7 @@ CREATE TABLE `apoteker` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `apoteker`
+-- Dumping data untuk tabel `apoteker`
 --
 
 INSERT INTO `apoteker` (`id_apoteker`, `nama_apoteker`, `jabatan`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `apoteker` (`id_apoteker`, `nama_apoteker`, `jabatan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nota`
+-- Struktur dari tabel `nota`
 --
 
 CREATE TABLE `nota` (
@@ -62,7 +62,7 @@ CREATE TABLE `nota` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `obat`
+-- Struktur dari tabel `obat`
 --
 
 CREATE TABLE `obat` (
@@ -73,18 +73,25 @@ CREATE TABLE `obat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `obat`
+-- Dumping data untuk tabel `obat`
 --
 
 INSERT INTO `obat` (`id_obat`, `nama_obat`, `stok`, `harga`) VALUES
 ('MN01', 'Ibuprofen', 45, 12000),
 ('MN02', 'Asipilin', 60, 2000),
-('MN03', 'Biofarma', 34, 50000);
+('MN03', 'Biofarma', 34, 50000),
+('MN04', 'Brompheniramine', 40, 20000),
+('MN05', 'Busulfan', 32, 17000),
+('MN06', 'Calcium Carbonate', 24, 24000),
+('MN07', 'Cefepime', 37, 10000),
+('MN08', 'Dimenhydrinate', 17, 16000),
+('MN09', 'Digoxin', 22, 25000),
+('MN10', 'Allopurinol', 30, 20183);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pelanggan`
+-- Struktur dari tabel `pelanggan`
 --
 
 CREATE TABLE `pelanggan` (
@@ -96,7 +103,7 @@ CREATE TABLE `pelanggan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `pelanggan`
+-- Dumping data untuk tabel `pelanggan`
 --
 
 INSERT INTO `pelanggan` (`id_pel`, `nama_pel`, `riwayat`, `no_telp`, `usia`) VALUES
@@ -107,7 +114,7 @@ INSERT INTO `pelanggan` (`id_pel`, `nama_pel`, `riwayat`, `no_telp`, `usia`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `trans`
+-- Struktur dari tabel `trans`
 --
 
 CREATE TABLE `trans` (
@@ -120,7 +127,7 @@ CREATE TABLE `trans` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Triggers `trans`
+-- Trigger `trans`
 --
 DELIMITER $$
 CREATE TRIGGER `after_insert_trans` AFTER INSERT ON `trans` FOR EACH ROW BEGIN
@@ -170,33 +177,33 @@ DELIMITER ;
 --
 
 --
--- Indexes for table `apoteker`
+-- Indeks untuk tabel `apoteker`
 --
 ALTER TABLE `apoteker`
   ADD PRIMARY KEY (`id_apoteker`);
 
 --
--- Indexes for table `nota`
+-- Indeks untuk tabel `nota`
 --
 ALTER TABLE `nota`
   ADD PRIMARY KEY (`id_nota`),
   ADD KEY `FK_trans` (`id_trans`);
 
 --
--- Indexes for table `obat`
+-- Indeks untuk tabel `obat`
 --
 ALTER TABLE `obat`
   ADD PRIMARY KEY (`id_obat`);
 
 --
--- Indexes for table `pelanggan`
+-- Indeks untuk tabel `pelanggan`
 --
 ALTER TABLE `pelanggan`
   ADD PRIMARY KEY (`id_pel`),
   ADD UNIQUE KEY `id_pel` (`id_pel`);
 
 --
--- Indexes for table `trans`
+-- Indeks untuk tabel `trans`
 --
 ALTER TABLE `trans`
   ADD PRIMARY KEY (`id_trans`),
@@ -205,27 +212,27 @@ ALTER TABLE `trans`
   ADD KEY `FK_apoteker` (`id_apoteker`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `nota`
+-- AUTO_INCREMENT untuk tabel `nota`
 --
 ALTER TABLE `nota`
   MODIFY `id_nota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `nota`
+-- Ketidakleluasaan untuk tabel `nota`
 --
 ALTER TABLE `nota`
   ADD CONSTRAINT `FK_trans` FOREIGN KEY (`id_trans`) REFERENCES `trans` (`id_trans`);
 
 --
--- Constraints for table `trans`
+-- Ketidakleluasaan untuk tabel `trans`
 --
 ALTER TABLE `trans`
   ADD CONSTRAINT `FK_apoteker` FOREIGN KEY (`id_apoteker`) REFERENCES `apoteker` (`id_apoteker`),
