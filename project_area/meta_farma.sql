@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Jun 2023 pada 19.14
--- Versi server: 10.4.27-MariaDB
--- Versi PHP: 8.2.0
+-- Generation Time: Jun 26, 2023 at 08:04 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `apoteker`
+-- Table structure for table `apoteker`
 --
 
 CREATE TABLE `apoteker` (
@@ -34,17 +34,25 @@ CREATE TABLE `apoteker` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `apoteker`
+-- Dumping data for table `apoteker`
 --
 
 INSERT INTO `apoteker` (`id_apoteker`, `nama_apoteker`, `jabatan`) VALUES
 ('A-01', 'Wahyu Tri', 'apoteker'),
-('A-02', 'Dewancha', 'Gudang');
+('A-02', 'Dewancha', 'Gudang'),
+('A-03', 'dicky', 'apoteker'),
+('A-04', 'gundala', 'pemimpin'),
+('A-05', 'diana', 'apoteker'),
+('A-06', 'jordan', 'Quality Control'),
+('A-07', 'gunawan', 'kepala jabatan'),
+('A-08', 'prili', 'wakil pemimpin'),
+('A-09', 'dwiky', 'laboratary'),
+('A-10', 'asep', 'kasir');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `nota`
+-- Table structure for table `nota`
 --
 
 CREATE TABLE `nota` (
@@ -62,7 +70,7 @@ CREATE TABLE `nota` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `obat`
+-- Table structure for table `obat`
 --
 
 CREATE TABLE `obat` (
@@ -73,25 +81,18 @@ CREATE TABLE `obat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `obat`
+-- Dumping data for table `obat`
 --
 
 INSERT INTO `obat` (`id_obat`, `nama_obat`, `stok`, `harga`) VALUES
 ('MN01', 'Ibuprofen', 45, 12000),
 ('MN02', 'Asipilin', 60, 2000),
-('MN03', 'Biofarma', 34, 50000),
-('MN04', 'Brompheniramine', 40, 20000),
-('MN05', 'Busulfan', 32, 17000),
-('MN06', 'Calcium Carbonate', 24, 24000),
-('MN07', 'Cefepime', 37, 10000),
-('MN08', 'Dimenhydrinate', 17, 16000),
-('MN09', 'Digoxin', 22, 25000),
-('MN10', 'Allopurinol', 30, 20183);
+('MN03', 'Biofarma', 34, 50000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pelanggan`
+-- Table structure for table `pelanggan`
 --
 
 CREATE TABLE `pelanggan` (
@@ -103,18 +104,36 @@ CREATE TABLE `pelanggan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `pelanggan`
+-- Dumping data for table `pelanggan`
 --
 
 INSERT INTO `pelanggan` (`id_pel`, `nama_pel`, `riwayat`, `no_telp`, `usia`) VALUES
-('U-1', 'Denny', NULL, NULL, 19),
-('U-2', 'Dimas', NULL, NULL, 20),
-('U-3', 'Dafiyan', NULL, NULL, 21);
+('U-1', 'Denny', 'demam', '088783493234', 19),
+('U-10', 'agung', 'pilek', '324953503294', 10),
+('U-11', 'demian', 'scabies', '095209403223', 45),
+('U-12', 'juki', 'demam', '082308503232', 21),
+('U-13', 'fitri', 'migrain', '008058324323', 45),
+('U-14', 'permadi', 'demam', '085673283244', 57),
+('U-15', 'gifarry', 'pilek', '089989523223', 14),
+('U-16', 'grace', 'mencret', '089949342455', 24),
+('U-17', 'cici', 'luka', '089895343432', 28),
+('U-18', 'kirana', 'nyeri', '089878786343', 20),
+('U-19', 'doky', 'maag', '089938472344', 23),
+('U-2', 'Dimas', 'masuk angin', '088989763432', 20),
+('U-20', 'salman', 'nyeri', '088763742342', 21),
+('U-21', 'joni', 'cacar', '089738242343', 38),
+('U-3', 'Dafiyan', 'sakit gigi', '089989975324', 21),
+('U-4', 'Maulana', 'sembelit', '82266671261', 21),
+('U-5', 'lucky', 'cacar', '083449284332', 18),
+('U-6', 'erick', 'alergidingin', '9374924029741', 29),
+('U-7', 'prasetyo', 'hipertensi', '113122435326', 23),
+('U-8', 'agus', 'biangkringet', '937240923040', 17),
+('U-9', 'mamat', 'batuk', '093240932432', 28);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `trans`
+-- Table structure for table `trans`
 --
 
 CREATE TABLE `trans` (
@@ -127,7 +146,7 @@ CREATE TABLE `trans` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Trigger `trans`
+-- Triggers `trans`
 --
 DELIMITER $$
 CREATE TRIGGER `after_insert_trans` AFTER INSERT ON `trans` FOR EACH ROW BEGIN
@@ -177,33 +196,33 @@ DELIMITER ;
 --
 
 --
--- Indeks untuk tabel `apoteker`
+-- Indexes for table `apoteker`
 --
 ALTER TABLE `apoteker`
   ADD PRIMARY KEY (`id_apoteker`);
 
 --
--- Indeks untuk tabel `nota`
+-- Indexes for table `nota`
 --
 ALTER TABLE `nota`
   ADD PRIMARY KEY (`id_nota`),
   ADD KEY `FK_trans` (`id_trans`);
 
 --
--- Indeks untuk tabel `obat`
+-- Indexes for table `obat`
 --
 ALTER TABLE `obat`
   ADD PRIMARY KEY (`id_obat`);
 
 --
--- Indeks untuk tabel `pelanggan`
+-- Indexes for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
   ADD PRIMARY KEY (`id_pel`),
   ADD UNIQUE KEY `id_pel` (`id_pel`);
 
 --
--- Indeks untuk tabel `trans`
+-- Indexes for table `trans`
 --
 ALTER TABLE `trans`
   ADD PRIMARY KEY (`id_trans`),
@@ -212,27 +231,27 @@ ALTER TABLE `trans`
   ADD KEY `FK_apoteker` (`id_apoteker`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `nota`
+-- AUTO_INCREMENT for table `nota`
 --
 ALTER TABLE `nota`
   MODIFY `id_nota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `nota`
+-- Constraints for table `nota`
 --
 ALTER TABLE `nota`
   ADD CONSTRAINT `FK_trans` FOREIGN KEY (`id_trans`) REFERENCES `trans` (`id_trans`);
 
 --
--- Ketidakleluasaan untuk tabel `trans`
+-- Constraints for table `trans`
 --
 ALTER TABLE `trans`
   ADD CONSTRAINT `FK_apoteker` FOREIGN KEY (`id_apoteker`) REFERENCES `apoteker` (`id_apoteker`),
